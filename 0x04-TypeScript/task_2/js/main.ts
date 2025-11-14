@@ -1,18 +1,17 @@
-// DirectorInterface with 3 methods
+// ---------------- Interfaces ----------------
 interface DirectorInterface {
   workFromHome(): string;
   getCoffeeBreak(): string;
   workDirectorTasks(): string;
 }
 
-// TeacherInterface with 3 methods
 interface TeacherInterface {
   workFromHome(): string;
   getCoffeeBreak(): string;
   workTeacherTasks(): string;
 }
 
-// Director class implementing DirectorInterface
+// ---------------- Classes ----------------
 class Director implements DirectorInterface {
   workFromHome(): string {
     return "Working from home";
@@ -27,7 +26,6 @@ class Director implements DirectorInterface {
   }
 }
 
-// Teacher class implementing TeacherInterface
 class Teacher implements TeacherInterface {
   workFromHome(): string {
     return "Cannot work from home";
@@ -42,30 +40,25 @@ class Teacher implements TeacherInterface {
   }
 }
 
-// createEmployee function
+// ---------------- Factory Function ----------------
 function createEmployee(salary: number | string): Director | Teacher {
+  let numericSalary: number;
+
   if (typeof salary === "number") {
-    return salary < 500 ? new Teacher() : new Director();
-  } else if (typeof salary === "string") {
-    // remove $ if exists and convert to number
-    const numericSalary = Number(salary.replace(/\$/g, ""));
-    return numericSalary < 500 ? new Teacher() : new Director();
+    numericSalary = salary;
+  } else {
+    numericSalary = Number(salary.replace(/\$/g, ""));
   }
-  // fallback (should never happen)
-  return new Teacher();
+
+  return numericSalary < 500 ? new Teacher() : new Director();
 }
 
-// Testing
-console.log(createEmployee(200).constructor.name);  // Teacher
-console.log(createEmployee(1000).constructor.name); // Director
-console.log(createEmployee("$500").constructor.name); // Director
-
-// Type predicate to check if employee is Director
+// ---------------- Type Predicate ----------------
 function isDirector(employee: Director | Teacher): employee is Director {
   return (employee as Director).workDirectorTasks !== undefined;
 }
 
-// Function to execute the correct work based on employee type
+// ---------------- Execute Work Function ----------------
 function executeWork(employee: Director | Teacher): void {
   if (isDirector(employee)) {
     console.log(employee.workDirectorTasks());
@@ -74,6 +67,10 @@ function executeWork(employee: Director | Teacher): void {
   }
 }
 
-// Testing
-executeWork(createEmployee(200));  // Getting to work
-executeWork(createEmployee(1000)); // Getting to director tasks
+// ---------------- Testing ----------------
+console.log(createEmployee(200).constructor.name);   // Teacher
+console.log(createEmployee(1000).constructor.name);  // Director
+console.log(createEmployee("$500").constructor.name); // Director
+
+executeWork(createEmployee(200));   // Getting to work
+executeWork(createEmployee(1000));  // Getting to director tasks
