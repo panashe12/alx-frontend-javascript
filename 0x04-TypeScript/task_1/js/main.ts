@@ -35,16 +35,27 @@ const director1: Directors = {
 
 console.log('Director:', director1);
 
-// Function interface
+/* ----------------------------------------------
+   PRINT TEACHER FUNCTION (Accepts object + F. LastName)
+----------------------------------------------- */
+
+// Interface for the object parameter
+interface TeacherName {
+  firstName: string;
+  lastName: string;
+}
+
+// Interface for the function type
 interface printTeacherFunction {
-  (firstName: string, lastName: string): string;
+  (teacher: TeacherName): string;
 }
 
 // Function implementation
-const printTeacher: printTeacherFunction = (firstName, lastName) => {
-  return `${firstName} ${lastName}`;
+const printTeacher: printTeacherFunction = (teacher) => {
+  const firstInitial = teacher.firstName.charAt(0);
+  return `${firstInitial}. ${teacher.lastName}`;
 };
 
 // Example usage
-console.log(printTeacher("John", "Doe"));    // John Doe
-console.log(printTeacher("Jane", "Smith"));  // Jane Smith
+console.log(printTeacher({ firstName: "John", lastName: "Doe" }));   // J. Doe
+console.log(printTeacher({ firstName: "Jane", lastName: "Smith" })); // J. Smith
