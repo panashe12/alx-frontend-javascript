@@ -67,10 +67,24 @@ function executeWork(employee: Director | Teacher): void {
   }
 }
 
+// ---------------- String Literal Type & Function ----------------
+type Subjects = "Math" | "History";
+
+function teachClass(todayClass: Subjects): string {
+  if (todayClass === "Math") {
+    return "Teaching Math";
+  } else {
+    return "Teaching History";
+  }
+}
+
 // ---------------- Testing ----------------
-console.log(createEmployee(200).constructor.name);   // Teacher
-console.log(createEmployee(1000).constructor.name);  // Director
+console.log(createEmployee(200).constructor.name);    // Teacher
+console.log(createEmployee(1000).constructor.name);   // Director
 console.log(createEmployee("$500").constructor.name); // Director
 
-executeWork(createEmployee(200));   // Getting to work
-executeWork(createEmployee(1000));  // Getting to director tasks
+executeWork(createEmployee(200));    // Getting to work
+executeWork(createEmployee(1000));   // Getting to director tasks
+
+console.log(teachClass("Math"));     // Teaching Math
+console.log(teachClass("History"));  // Teaching History
